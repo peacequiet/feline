@@ -33,6 +33,13 @@ def process (exitCode : UInt32) (args : List String) : IO UInt32 := do
     let stdin ← IO.getStdin
     dump stdin
     process exitCode args
+  | "--help" :: args =>
+    let stdout ← IO.getStdout
+    stdout.putStrLn "help with args:"
+    stdout.putStrLn "[]         -> program exit"
+    stdout.putStrLn "[\"-\"]      -> repeat user input "
+    stdout.putStrLn "[filename] -> print file contents"
+    process exitCode args
   | filename :: args =>                         -- filename case, read file
     let stream ← fileStream ⟨filename⟩
     match stream with
